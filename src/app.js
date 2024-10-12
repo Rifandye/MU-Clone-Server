@@ -4,6 +4,8 @@ const helmet = require('helmet');
 const cors = require('cors');
 const winston = require('winston');
 const expressWinston = require('express-winston');
+const router = require('./router/routes');
+const errorHandler = require('./middlewares/ErrorHandler');
 
 dotenv.config({
   path:
@@ -54,9 +56,8 @@ app.use(
   }),
 );
 
-app.get('/', (req, res) => {
-  return res.status(200).json('Ok');
-});
+app.use(router);
+app.use(errorHandler);
 
 app.use(
   expressWinston.errorLogger({
