@@ -10,6 +10,9 @@ const errorHandler = (err, req, res, next) => {
     case 'BadRequest':
       response.error('Bad Request', err.message, 400);
       break;
+    case 'InvalidToken':
+      response.error('Unauthorized', 'Invalid Token', 401);
+      break;
     default:
       break;
   }
