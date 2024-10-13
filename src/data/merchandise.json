@@ -1,0 +1,206 @@
+[
+    {
+      "name": "Manchester United Home Jersey 2023/2024",
+      "description": "The official Manchester United home jersey for the 2023/2024 season.",
+      "slug": "manchester-united-home-jersey-2023-2024",
+      "price": 89.99,
+      "stock": 150
+    },
+    {
+      "name": "Manchester United Away Jersey 2023/2024",
+      "description": "The official Manchester United away jersey for the 2023/2024 season.",
+      "slug": "manchester-united-away-jersey-2023-2024",
+      "price": 89.99,
+      "stock": 120
+    },
+    {
+      "name": "Manchester United Third Kit 2023/2024",
+      "description": "Manchester United's third kit for the 2023/2024 season, a fan favorite.",
+      "slug": "manchester-united-third-kit-2023-2024",
+      "price": 89.99,
+      "stock": 100
+    },
+    {
+      "name": "Manchester United Retro Jersey 1999",
+      "description": "Commemorating the 1999 treble-winning team with this retro jersey.",
+      "slug": "manchester-united-retro-jersey-1999",
+      "price": 75.99,
+      "stock": 75
+    },
+    {
+      "name": "Manchester United Scarf",
+      "description": "Official Manchester United scarf to show your support on matchdays.",
+      "slug": "manchester-united-scarf",
+      "price": 19.99,
+      "stock": 300
+    },
+    {
+      "name": "Manchester United Beanie",
+      "description": "Official Manchester United beanie to stay warm and stylish.",
+      "slug": "manchester-united-beanie",
+      "price": 24.99,
+      "stock": 250
+    },
+    {
+      "name": "Manchester United Mug",
+      "description": "A Manchester United-themed mug for your favorite hot drinks.",
+      "slug": "manchester-united-mug",
+      "price": 12.99,
+      "stock": 500
+    },
+    {
+      "name": "Manchester United Keychain",
+      "description": "Carry your keys with style using this official Manchester United keychain.",
+      "slug": "manchester-united-keychain",
+      "price": 5.99,
+      "stock": 600
+    },
+    {
+      "name": "Manchester United Hoodie",
+      "description": "A comfortable hoodie with the official Manchester United logo.",
+      "slug": "manchester-united-hoodie",
+      "price": 49.99,
+      "stock": 80
+    },
+    {
+      "name": "Manchester United Backpack",
+      "description": "Official Manchester United backpack, perfect for everyday use.",
+      "slug": "manchester-united-backpack",
+      "price": 59.99,
+      "stock": 120
+    },
+    {
+      "name": "Manchester United Cap",
+      "description": "An adjustable cap featuring the Manchester United crest.",
+      "slug": "manchester-united-cap",
+      "price": 19.99,
+      "stock": 200
+    },
+    {
+      "name": "Manchester United Flag",
+      "description": "Show your pride with this large Manchester United flag.",
+      "slug": "manchester-united-flag",
+      "price": 14.99,
+      "stock": 250
+    },
+    {
+      "name": "Manchester United Gloves",
+      "description": "Keep your hands warm with these official Manchester United gloves.",
+      "slug": "manchester-united-gloves",
+      "price": 14.99,
+      "stock": 180
+    },
+    {
+      "name": "Manchester United Poster",
+      "description": "A high-quality poster featuring Manchester United players.",
+      "slug": "manchester-united-poster",
+      "price": 9.99,
+      "stock": 350
+    },
+    {
+        "name": "Manchester United Training Jersey 2023",
+        "description": "The official training jersey worn by Manchester United players during practice sessions.",
+        "slug": "manchester-united-training-jersey-2023",
+        "price": 59.99,
+        "stock": 100
+      },
+      {
+        "name": "Manchester United Goalkeeper Jersey 2023/2024",
+        "description": "The official goalkeeper jersey for the 2023/2024 season.",
+        "slug": "manchester-united-goalkeeper-jersey-2023-2024",
+        "price": 99.99,
+        "stock": 50
+      },
+      {
+        "name": "Manchester United Captain Armband",
+        "description": "The iconic captain armband worn by Manchester United captains.",
+        "slug": "manchester-united-captain-armband",
+        "price": 12.99,
+        "stock": 300
+      },
+      {
+        "name": "Manchester United Water Bottle",
+        "description": "Official Manchester United water bottle for staying hydrated during matches or workouts.",
+        "slug": "manchester-united-water-bottle",
+        "price": 15.99,
+        "stock": 500
+      },
+      {
+        "name": "Manchester United Shorts 2023/2024",
+        "description": "Official Manchester United shorts to pair with the 2023/2024 jersey.",
+        "slug": "manchester-united-shorts-2023-2024",
+        "price": 39.99,
+        "stock": 200
+      },
+      {
+        "name": "Manchester United Face Mask",
+        "description": "Stay safe and support your team with an official Manchester United face mask.",
+        "slug": "manchester-united-face-mask",
+        "price": 9.99,
+        "stock": 1000
+      },
+      {
+        "name": "Manchester United Socks",
+        "description": "Official Manchester United socks for comfort and style.",
+        "slug": "manchester-united-socks",
+        "price": 12.99,
+        "stock": 400
+      },
+      {
+        "name": "Manchester United Limited Edition Ball",
+        "description": "A limited edition Manchester United football, perfect for collectors and fans.",
+        "slug": "manchester-united-limited-edition-ball",
+        "price": 49.99,
+        "stock": 150
+      },
+      {
+        "name": "Manchester United Duffle Bag",
+        "description": "A durable duffle bag with the Manchester United logo, ideal for gym or travel.",
+        "slug": "manchester-united-duffle-bag",
+        "price": 59.99,
+        "stock": 100
+      },
+      {
+        "name": "Manchester United Pyjamas",
+        "description": "Comfortable pyjamas with Manchester United branding, perfect for fans of all ages.",
+        "slug": "manchester-united-pyjamas",
+        "price": 29.99,
+        "stock": 250
+      },
+      {
+        "name": "Manchester United Towel",
+        "description": "An official Manchester United towel, perfect for home or gym use.",
+        "slug": "manchester-united-towel",
+        "price": 24.99,
+        "stock": 200
+      },
+      {
+        "name": "Manchester United Phone Case",
+        "description": "A sleek phone case with the Manchester United crest, available for various phone models.",
+        "slug": "manchester-united-phone-case",
+        "price": 19.99,
+        "stock": 400
+      },
+      {
+        "name": "Manchester United Tracksuit 2023",
+        "description": "The official Manchester United tracksuit for the 2023 season, worn by players and staff.",
+        "slug": "manchester-united-tracksuit-2023",
+        "price": 109.99,
+        "stock": 120
+      },
+      {
+        "name": "Manchester United Sunglasses",
+        "description": "Stylish sunglasses featuring the Manchester United logo on the arms.",
+        "slug": "manchester-united-sunglasses",
+        "price": 34.99,
+        "stock": 300
+      },
+      {
+        "name": "Manchester United Calendar 2024",
+        "description": "A 2024 calendar featuring Manchester United players and iconic moments.",
+        "slug": "manchester-united-calendar-2024",
+        "price": 14.99,
+        "stock": 500
+      }
+]
+  
