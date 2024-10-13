@@ -28,6 +28,7 @@ module.exports = {
       stock: {
         type: Sequelize.INTEGER,
         allowNull: true,
+        defaultValue: 0,
       },
       createdAt: {
         allowNull: false,

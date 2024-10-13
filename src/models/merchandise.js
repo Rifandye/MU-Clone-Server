@@ -29,9 +29,20 @@ module.exports = (sequelize, DataTypes) => {
       },
       name: DataTypes.STRING,
       description: DataTypes.TEXT,
-      slug: DataTypes.STRING,
-      price: DataTypes.DECIMAL,
-      stock: DataTypes.INTEGER,
+      slug: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+      },
+      price: {
+        type: DataTypes.DECIMAL,
+        allowNull: false,
+      },
+      stock: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
+      },
     },
     {
       sequelize,
