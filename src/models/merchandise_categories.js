@@ -1,9 +1,7 @@
 'use strict';
 const { Model } = require('sequelize');
-const { Sequelize } = require('.');
-const { hashPass } = require('../utils/bcrypt');
 module.exports = (sequelize, DataTypes) => {
-  class User extends Model {
+  class Merchandise_Categories extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -13,31 +11,20 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-  User.init(
+  Merchandise_Categories.init(
     {
       id: {
         primaryKey: true,
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
       },
-      firstName: DataTypes.STRING,
-      lastName: DataTypes.STRING,
-      email: DataTypes.STRING,
-      password: DataTypes.STRING,
-      role: {
-        type: DataTypes.ENUM('FANS', 'ADMIN'),
-        defaultValue: 'FANS',
-      },
+      merchandiseId: DataTypes.UUID,
+      categoryId: DataTypes.UUID,
     },
     {
       sequelize,
-      modelName: 'User',
+      modelName: 'Merchandise_Categories',
     },
   );
-
-  User.beforeCreate((user) => {
-    user.password = hashPass(user.password);
-  });
-
-  return User;
+  return Merchandise_Categories;
 };

@@ -8,16 +8,13 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Merchandise.hasMany(models.Image, {
-        foreignKey: 'merchandise_ise',
-        as: 'images',
+      Merchandise.belongsToMany(models.Category, {
+        through: models.Merchandise_Categories,
+        foreignKey: 'merchandiseId',
+        otherKey: 'categoryId',
       });
 
-      Merchandise.belongsToMany(models.Category, {
-        through: 'merchandise_categories',
-        foreignKey: 'merchandise_id',
-        as: 'categories',
-      });
+      Merchandise.hasMany(models.Image);
     }
   }
   Merchandise.init(
@@ -29,25 +26,13 @@ module.exports = (sequelize, DataTypes) => {
       },
       name: DataTypes.STRING,
       description: DataTypes.TEXT,
-      slug: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        unique: true,
-      },
-      price: {
-        type: DataTypes.DECIMAL,
-        allowNull: false,
-      },
-      stock: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        defaultValue: 0,
-      },
+      slug: DataTypes.STRING,
+      price: DataTypes.DECIMAL,
+      stock: DataTypes.INTEGER,
     },
     {
       sequelize,
       modelName: 'Merchandise',
-      tableName: 'merchandises',
     },
   );
   return Merchandise;

@@ -2,28 +2,34 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('merchandise_categories', {
+    await queryInterface.createTable('Users', {
       id: {
         allowNull: false,
         primaryKey: true,
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
       },
-      merchandise_id: {
-        type: Sequelize.UUID,
+      firstName: {
         allowNull: false,
-        references: {
-          model: 'merchandises',
-          key: 'id',
-        },
+        type: Sequelize.STRING,
       },
-      category_id: {
-        type: Sequelize.UUID,
+      lastName: {
         allowNull: false,
-        references: {
-          model: 'categories',
-          key: 'id',
-        },
+        type: Sequelize.STRING,
+      },
+      email: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: true,
+      },
+      password: {
+        allowNull: false,
+        type: Sequelize.STRING,
+      },
+      role: {
+        type: Sequelize.ENUM('FANS', 'ADMIN'),
+        allowNull: false,
+        defaultValue: 'FANS',
       },
       createdAt: {
         allowNull: false,
@@ -36,6 +42,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('merchandise_categories');
+    await queryInterface.dropTable('Users');
   },
 };

@@ -1,4 +1,5 @@
 'use strict';
+
 const { v4: uuidv4 } = require('uuid');
 
 /** @type {import('sequelize-cli').Migration} */
@@ -11,11 +12,11 @@ module.exports = {
       return data;
     });
 
-    await queryInterface.bulkInsert('categories', categoryData);
+    await queryInterface.bulkInsert('Categories', categoryData);
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.bulkDelete('categories', null, {
+    await queryInterface.bulkDelete('Categories', null, {
       truncate: true,
       cascade: true,
     });

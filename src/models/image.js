@@ -8,37 +8,17 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Image.belongsTo(models.Merchadise, {
-        foreignKey: 'merchandise_id',
-        as: 'merchandise',
-      });
+      Image.belongsTo(models.Merchandise);
     }
   }
   Image.init(
     {
-      id: {
-        primaryKey: true,
-        type: DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV4,
-      },
-      merchandise_id: {
-        type: DataTypes.UUID,
-        allowNull: false,
-        references: {
-          model: 'merchandises',
-          key: 'id',
-        },
-        onDelete: 'CASCADE',
-      },
-      url: {
-        type: DataTypes.TEXT,
-        allowNull: false,
-      },
+      url: DataTypes.TEXT,
+      merchandiseId: DataTypes.UUID,
     },
     {
       sequelize,
       modelName: 'Image',
-      tableName: 'images',
     },
   );
   return Image;

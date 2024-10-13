@@ -14,6 +14,9 @@ const errorHandler = (err, req, res, next) => {
     case 'InvalidToken':
       response.error('Unauthorized', 'Invalid Token', 401);
       break;
+    case 'NotFound':
+      response.error('Not Found', err.message, 404);
+      break;
     default:
       response.error(
         'Internal Server Error',

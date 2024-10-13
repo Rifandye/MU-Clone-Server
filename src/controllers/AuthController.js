@@ -15,8 +15,8 @@ module.exports = class AuthController {
       if (user) throw { name: 'BadRequest', message: 'Email already taken' };
 
       const createdUser = await User.create({
-        first_name: firstName,
-        last_name: lastName,
+        firstName,
+        lastName,
         email,
         ...req.body,
       });
