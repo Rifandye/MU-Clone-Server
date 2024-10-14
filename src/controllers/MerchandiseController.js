@@ -3,6 +3,7 @@ const {
   Merchandise,
   Category,
   Merchandise_Categories,
+  Image,
   sequelize,
 } = require('../models');
 const Response = require('../utils/response');
@@ -11,7 +12,19 @@ module.exports = class MerchandiseController {
   static async getAllMerchandise(req, res, next) {
     const response = new Response(res);
     try {
-      const data = await Merchandise.findAll();
+      const data = await Merchandise.findAll({
+        include: [
+          {
+            model: Category,
+            through: { attributes: [] },
+            attributes: ['id', 'name'],
+          },
+          {
+            model: Image,
+            attributes: ['id', 'url'],
+          },
+        ],
+      });
 
       response.success('Fetched successfully', data, 200);
     } catch (error) {
@@ -24,7 +37,20 @@ module.exports = class MerchandiseController {
     try {
       const { slug } = req.params;
 
-      const data = await Merchandise.findOne({ where: { slug } });
+      const data = await Merchandise.findOne({
+        where: { slug },
+        include: [
+          {
+            model: Category,
+            through: { attributes: [] },
+            attributes: ['id', 'name'],
+          },
+          {
+            model: Image,
+            attributes: ['id', 'url'],
+          },
+        ],
+      });
 
       if (!data) throw { name: 'NotFound', message: 'Merchandise not found' };
 
