@@ -15,6 +15,7 @@ module.exports = {
           model: 'Merchandises',
           key: 'id',
         },
+        onDelete: 'CASCADE',
       },
       categoryId: {
         type: Sequelize.UUID,
@@ -22,6 +23,7 @@ module.exports = {
           model: 'Categories',
           key: 'id',
         },
+        onDelete: 'CASCADE',
       },
       createdAt: {
         allowNull: false,

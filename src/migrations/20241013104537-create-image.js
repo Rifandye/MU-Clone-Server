@@ -11,6 +11,7 @@ module.exports = {
       },
       url: {
         type: Sequelize.TEXT,
+        allowNull: false,
       },
       merchandiseId: {
         type: Sequelize.UUID,
@@ -18,6 +19,7 @@ module.exports = {
           model: 'Merchandises',
           key: 'id',
         },
+        onDelete: 'CASCADE',
       },
       createdAt: {
         allowNull: false,
