@@ -117,6 +117,10 @@ module.exports = class MerchandiseController {
             through: { attributes: [] },
             attributes: ['id', 'name'],
           },
+          {
+            model: Image,
+            attributes: ['id', 'url'],
+          },
         ],
         transaction: t,
       });
