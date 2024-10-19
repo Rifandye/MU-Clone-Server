@@ -1,0 +1,87 @@
+version: 2.1
+
+orbs:
+  node: circleci/node@5
+
+jobs:
+  build:
+    docker:
+      - image: cimg/node:16.13
+    steps:
+      - checkout:
+          path: ~/project/src
+      - run:
+          name: Set up Docker
+          command: |
+            echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+      - run:
+          name: Build Docker image
+          command: |
+            # Determine the tag based on the branch
+            if [ "$CIRCLE_BRANCH" == "main" ]; then
+              IMAGE_TAG="production";  # Tag as production for main branch
+            else
+              IMAGE_TAG="development";  # Tag as development for any other branch (like development)
+            fi
+            docker build -t rifandye/muclone-image-hub:$IMAGE_TAG .
+      - run:
+          name: Push Docker image to Docker Hub
+          command: |
+            docker push rifandye/muclone-image-hub:$IMAGE_TAG
+
+  # Job to deploy to VPS (Development) using context
+  deploy-dev:
+    docker:
+      - image: cimg/base:stable
+    context: MUClone-Dev-Context  # Use development context for environment variables
+    steps:
+      - run:
+          name: SSH to VPS and pull Docker image
+          command: |
+            ssh -o StrictHostKeyChecking=no $VPS_USER@$VPS_IP << 'EOF'
+              docker login -u "$DOCKER_PASSWORD" -p "$DOCKER_USERNAME"
+              docker pull rifandye/muclone-image-hub:development
+              docker stop mu-clone-development || true
+              docker rm mu-clone-development || true
+              docker run -d --name mu-clone-development -p 8001:3001 rifandye/muclone-image-hub:development
+            EOF
+
+  # Job to deploy to VPS (Production) using context
+  deploy-prod:
+    docker:
+      - image: cimg/base:stable
+    context: production-context  # Use production context for environment variables
+    steps:
+      - run:
+          name: SSH to VPS and pull Docker image
+          command: |
+            ssh -o StrictHostKeyChecking=no $VPS_USER@$VPS_IP << 'EOF'
+              docker login -u "$DOCKER_PASSWORD" -p "$DOCKER_USERNAME"
+              docker pull rifandye/muclone-image-hub:production
+              docker stop mu-clone-production || true
+              docker rm mu-clone-production || true
+              docker run -d --name mu-clone-production -p 8002:3002 rifandye/muclone-image-hub:production
+            EOF
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only:
+                - development
+                - main
+      - deploy-dev:
+          requires:
+            - build
+          filters:
+            branches:
+              only: development
+      - deploy-prod:
+          requires:
+            - build
+          filters:
+            branches:
+              only: main

@@ -7,12 +7,7 @@ const expressWinston = require('express-winston');
 const router = require('./router/routes');
 const errorHandler = require('./middlewares/ErrorHandler');
 
-dotenv.config({
-  path:
-    process.env.NODE_ENV === 'production'
-      ? '.env.production'
-      : '.env.development',
-});
+dotenv.config();
 
 const app = express();
 const port = process.env.PORT;
@@ -68,9 +63,7 @@ app.use(
 );
 
 app.listen(port, () => {
-  console.log(
-    `Server running with ${process.env.NODE_ENV} mode on port ${port}`,
-  );
+  console.log(`Server running with mode on port ${port}`);
 });
 
 module.exports = app;
