@@ -28,11 +28,6 @@ jobs:
             echo "IMAGE_TAG is set to: $IMAGE_TAG"
             docker build -t rifandye/muclone-image-hub:$IMAGE_TAG ./src
       - run:
-          name: Tag Docker image
-          command: |
-            echo "Tagging the image: rifandye/muclone-image-hub:$IMAGE_TAG"
-            docker tag rifandye/muclone-image-hub:$IMAGE_TAG rifandye/muclone-image-hub:$IMAGE_TAG
-      - run:
           name: Push Docker image to Docker Hub
           command: |
             echo "Pushing Docker image with tag: rifandye/muclone-image-hub:$IMAGE_TAG"
