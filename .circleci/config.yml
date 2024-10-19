@@ -23,7 +23,7 @@ jobs:
             else
               IMAGE_TAG="development";  # Tag as development for any other branch (like development)
             fi
-            docker build -t rifandye/muclone-image-hub:$IMAGE_TAG .
+            docker build -t rifandye/muclone-image-hub:$IMAGE_TAG ./src  # Build from the src folder
       - run:
           name: Push Docker image to Docker Hub
           command: |
@@ -79,9 +79,11 @@ workflows:
           filters:
             branches:
               only: development
+          context: MUClone-Dev-Context  
       - deploy-prod:
           requires:
             - build
           filters:
             branches:
               only: main
+          context: MUClone-Prod-Context
