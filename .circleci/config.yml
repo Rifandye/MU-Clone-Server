@@ -49,8 +49,8 @@ jobs:
             ssh -o StrictHostKeyChecking=no -p $VPS_PORT $VPS_USER@$VPS_IP \<< 'EOF'
               echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
               docker pull rifandye/muclone-image-hub:development
-              docker stop mu-clone-development || true
-              docker rm mu-clone-development || true
+              docker ps -a --filter "name=mu-clone-development" -q | grep -q . && \
+              docker stop mu-clone-development && docker rm mu-clone-development || true
               docker run -d --name mu-clone-development -p 8001:3001 rifandye/muclone-image-hub:development
             EOF
 
