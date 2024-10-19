@@ -29,7 +29,7 @@ jobs:
       - run:
           name: Push Docker image to Docker Hub
           command: |
-            docker push rifandye/muclone-image-hub:$IMAGE_TAG
+            docker push rifandye/muclone-image-hub:test
 
   deploy-dev:
     docker:
