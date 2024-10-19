@@ -10,7 +10,9 @@ jobs:
     steps:
       - checkout:
           path: ~/project
-      - setup_remote_docker
+      - setup_remote_docker:
+          version: 20.10.7
+          docker_layer_caching: true
       - run:
           name: Set up Docker
           command: |
@@ -33,7 +35,7 @@ jobs:
       - run:
           name: Confirm Docker Image
           command: docker images | grep rifandye/muclone-image-hub
-          
+
       - run:
           name: Push Docker image to Docker Hub
           command: |
@@ -46,8 +48,8 @@ jobs:
       - run:
           name: SSH to VPS and pull Docker image
           command: |
-            ssh -o StrictHostKeyChecking=no $VPS_USER@$VPS_IP \<< 'EOF'
-              docker login -u "$DOCKER_PASSWORD" -p "$DOCKER_USERNAME"
+            ssh -o StrictHostKeyChecking=no $VPS_USER@$VPS_IP << 'EOF'
+              echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
               docker pull rifandye/muclone-image-hub:development
               docker stop mu-clone-development || true
               docker rm mu-clone-development || true
@@ -61,8 +63,8 @@ jobs:
       - run:
           name: SSH to VPS and pull Docker image
           command: |
-            ssh -o StrictHostKeyChecking=no $VPS_USER@$VPS_IP \<< 'EOF'
-              docker login -u "$DOCKER_PASSWORD" -p "$DOCKER_USERNAME"
+            ssh -o StrictHostKeyChecking=no $VPS_USER@$VPS_IP << 'EOF'
+              echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
               docker pull rifandye/muclone-image-hub:production
               docker stop mu-clone-production || true
               docker rm mu-clone-production || true
@@ -85,11 +87,11 @@ workflows:
           filters:
             branches:
               only: development
-          context: MUClone-Dev-Context  # Move context here
+          context: MUClone-Dev-Context 
       - deploy-prod:
           requires:
             - build
           filters:
             branches:
               only: main
-          context: MUClone-Prod-Context  # Move context here
+          context: MUClone-Prod-Context 
