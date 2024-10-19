@@ -29,11 +29,9 @@ jobs:
           command: |
             docker push rifandye/muclone-image-hub:$IMAGE_TAG
 
-  # Job to deploy to VPS (Development) using context
   deploy-dev:
     docker:
       - image: cimg/base:stable
-    context: MUClone-Dev-Context  # Use development context for environment variables
     steps:
       - run:
           name: SSH to VPS and pull Docker image
@@ -46,11 +44,9 @@ jobs:
               docker run -d --name mu-clone-development -p 8001:3001 rifandye/muclone-image-hub:development
             EOF
 
-  # Job to deploy to VPS (Production) using context
   deploy-prod:
     docker:
       - image: cimg/base:stable
-    context: production-context  # Use production context for environment variables
     steps:
       - run:
           name: SSH to VPS and pull Docker image
@@ -79,11 +75,11 @@ workflows:
           filters:
             branches:
               only: development
-          context: MUClone-Dev-Context  
+          context: MUClone-Dev-Context  # Move context here
       - deploy-prod:
           requires:
             - build
           filters:
             branches:
               only: main
-          context: MUClone-Prod-Context
+          context: MUClone-Prod-Context  # Move context here
