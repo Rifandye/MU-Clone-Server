@@ -32,6 +32,11 @@ jobs:
       - run:
           name: Push Docker image to Docker Hub
           command: |
+            if [ "$CIRCLE_BRANCH" == "main" ]; then
+                IMAGE_TAG="production";
+              else
+                IMAGE_TAG="development";
+              fi
             echo "Pushing Docker image with tag: rifandye/muclone-image-hub:$IMAGE_TAG"
             docker push rifandye/muclone-image-hub:$IMAGE_TAG
   deploy-dev:
