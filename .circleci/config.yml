@@ -26,12 +26,14 @@ jobs:
             fi
             docker build -t rifandye/muclone-image-hub:$IMAGE_TAG ./src
 
-            - run:
+      - run:
           name: Verify Docker Login
           command: docker login -u "$DOCKER_USERNAME" --password-stdin
+
       - run:
           name: Confirm Docker Image
           command: docker images | grep rifandye/muclone-image-hub
+          
       - run:
           name: Push Docker image to Docker Hub
           command: |
