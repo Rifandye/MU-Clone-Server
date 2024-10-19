@@ -6,10 +6,11 @@ orbs:
 jobs:
   build:
     docker:
-      - image: cimg/node:16.13
+     - image: circleci/node:16.13-browsers
     steps:
       - checkout:
           path: ~/project
+      - setup_remote_docker
       - run:
           name: Set up Docker
           command: |
