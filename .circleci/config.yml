@@ -59,7 +59,7 @@ jobs:
               docker pull rifandye/muclone-image-hub:development
               docker ps -a --filter "name=mu-clone-development" -q | grep -q . && \
               docker stop mu-clone-development && docker rm mu-clone-development || true
-              docker run -d --name mu-clone-development -p 8001:3001 rifandye/muclone-image-hub:development
+              docker run -d --name mu-clone-development --network Runestone-Network -p 8001:3001 rifandye/muclone-image-hub:development
             EOF
 
   deploy-prod:
