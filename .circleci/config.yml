@@ -16,7 +16,7 @@ jobs:
           name: Set up Docker
           command: |
             echo "Attempting Docker login"
-            docker login -u "$DOCKER_USERNAME" --password-stdin
+            echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
       - run:
           name: Build Docker image
           command: |
@@ -27,12 +27,9 @@ jobs:
             fi
             docker build -t rifandye/muclone-image-hub:$IMAGE_TAG ./src
       - run:
-          name: Confirm Docker Image
-          command: docker images | grep rifandye/muclone-image-hub
-      - run:
           name: Push Docker image to Docker Hub
           command: |
-            docker push rifandye/muclone-image-hub:test
+            docker push rifandye/muclone-image-hub:$IMAGE_TAG
 
   deploy-dev:
     docker:
