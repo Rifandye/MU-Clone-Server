@@ -63,7 +63,7 @@ jobs:
       - run:
           name: SSH to VPS and pull Docker image
           command: |
-            ssh -o StrictHostKeyChecking=no $VPS_USER@$VPS_IP << 'EOF'
+            ssh -o StrictHostKeyChecking=no $VPS_USER@$VPS_IP \<< 'EOF'
               echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
               docker pull rifandye/muclone-image-hub:production
               docker stop mu-clone-production || true
