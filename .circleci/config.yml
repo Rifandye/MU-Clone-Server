@@ -48,7 +48,7 @@ jobs:
               fi
             echo "Pushing Docker image with tag: rifandye/muclone-image-hub:$IMAGE_TAG"
             docker push rifandye/muclone-image-hub:$IMAGE_TAG
-    deploy-dev:
+  deploy-dev:
     docker:
       - image: cimg/base:stable
     steps:
@@ -71,7 +71,7 @@ jobs:
                 rifandye/muclone-image-hub:development
             EOF
 
-    deploy-prod:
+  deploy-prod:
     docker:
       - image: cimg/base:stable
     steps:
@@ -92,6 +92,7 @@ jobs:
                 -e ALLOWED_ORIGINS=$ALLOWED_ORIGINS \
                 rifandye/muclone-image-hub:production
             EOF
+
 workflows:
   version: 2
   build-and-deploy:
