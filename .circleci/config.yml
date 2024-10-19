@@ -29,7 +29,7 @@ jobs:
             fi
             echo "IMAGE_TAG is set to: $IMAGE_TAG"
             docker build \
-              --build-arg PORT=$PORT \
+              --build-arg PORT=3001 \
               --build-arg NODE_ENV=$IMAGE_TAG \
               --build-arg DB_USERNAME=$DB_USERNAME \
               --build-arg DB_PASSWORD=$DB_PASSWORD \
