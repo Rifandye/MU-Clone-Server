@@ -16,32 +16,23 @@ jobs:
           name: Set up Docker
           command: |
             echo "Attempting Docker login"
-            echo "$DOCKER_USERNAME"   # Check if this variable is being picked up
-            echo "$DOCKER_PASSWORD"   # Be careful: this prints sensitive info, only do it in a secure environment
-            echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+            docker login -u "$DOCKER_USERNAME" --password-stdin
       - run:
           name: Build Docker image
           command: |
-            # Determine the tag based on the branch
             if [ "$CIRCLE_BRANCH" == "main" ]; then
               IMAGE_TAG="production";
             else
               IMAGE_TAG="development";
             fi
             docker build -t rifandye/muclone-image-hub:$IMAGE_TAG ./src
-
-      - run:
-          name: Verify Docker Login
-          command: docker login -u "$DOCKER_USERNAME" --password-stdin
-
       - run:
           name: Confirm Docker Image
           command: docker images | grep rifandye/muclone-image-hub
-
       - run:
           name: Push Docker image to Docker Hub
           command: |
-            docker push rifandye/muclone-image-hub:$IMAGE_TAG
+            docker push rifandye/muclone-image-hub:test
 
   deploy-dev:
     docker:
