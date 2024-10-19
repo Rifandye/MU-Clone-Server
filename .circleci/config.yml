@@ -9,7 +9,7 @@ jobs:
       - image: cimg/node:16.13
     steps:
       - checkout:
-          path: ~/project/src
+          path: ~/project
       - run:
           name: Set up Docker
           command: |
