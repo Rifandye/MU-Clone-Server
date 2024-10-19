@@ -15,6 +15,9 @@ jobs:
       - run:
           name: Set up Docker
           command: |
+            echo "Attempting Docker login"
+            echo "$DOCKER_USERNAME"   # Check if this variable is being picked up
+            echo "$DOCKER_PASSWORD"   # Be careful: this prints sensitive info, only do it in a secure environment
             echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
       - run:
           name: Build Docker image
