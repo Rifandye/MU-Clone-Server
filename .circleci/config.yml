@@ -20,15 +20,21 @@ jobs:
           command: |
             # Determine the tag based on the branch
             if [ "$CIRCLE_BRANCH" == "main" ]; then
-              IMAGE_TAG="production";  # Tag as production for main branch
+              IMAGE_TAG="production";
             else
-              IMAGE_TAG="development";  # Tag as development for any other branch (like development)
+              IMAGE_TAG="development";
             fi
-            docker build -t rifandye/muclone-image-hub:$IMAGE_TAG ./src  # Build from the src folder
+            docker build -t rifandye/muclone-image-hub:$IMAGE_TAG ./src
+
+            - run:
+          name: Verify Docker Login
+          command: docker login -u "$DOCKER_USERNAME" --password-stdin
+      - run:
+          name: Confirm Docker Image
+          command: docker images | grep rifandye/muclone-image-hub
       - run:
           name: Push Docker image to Docker Hub
           command: |
-            echo "Building Docker image with tag: $IMAGE_TAG"
             docker push rifandye/muclone-image-hub:$IMAGE_TAG
 
   deploy-dev:
