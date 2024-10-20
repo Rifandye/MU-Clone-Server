@@ -26,16 +26,7 @@ jobs:
               IMAGE_TAG="development";
             fi
             echo "IMAGE_TAG is set to: $IMAGE_TAG"
-            docker build \
-              --build-arg PORT=3001 \
-              --build-arg NODE_ENV=$IMAGE_TAG \
-              --build-arg DB_USERNAME=$DB_USERNAME \
-              --build-arg DB_PASSWORD=$DB_PASSWORD \
-              --build-arg DB_NAME=$DB_NAME \
-              --build-arg DB_HOST=$DB_HOST \
-              --build-arg JWT_SECRET=$JWT_SECRET \
-              --build-arg ALLOWED_ORIGINS=$ALLOWED_ORIGINS \
-              -t rifandye/muclone-image-hub:$IMAGE_TAG ./src
+            docker build -t rifandye/muclone-image-hub:$IMAGE_TAG ./src
       - run:
           name: Push Docker image to Docker Hub
           command: |
