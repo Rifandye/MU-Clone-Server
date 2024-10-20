@@ -7,8 +7,6 @@ jobs:
   build:
     docker:
      - image: circleci/node:16.13-browsers
-    environment:
-      IMAGE_TAG: ""
     steps:
       - checkout:
           path: ~/project
