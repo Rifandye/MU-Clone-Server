@@ -6,7 +6,7 @@ const CategoryRouter = require('./CategoryRouter');
 const { authentication } = require('../middlewares/Authentication');
 
 router.use('/auth', AuthRouter);
-router.use(authentication);
+// router.use(authentication);
 router.use('/merchandise', MerchandiseRouter);
 router.use('/category', CategoryRouter);
 
