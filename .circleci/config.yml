@@ -51,7 +51,7 @@ jobs:
               docker run -d --name mu-clone-development \
                 --network Runestone-Network \
                 -p 8001:3001 \
-                --env-file /projects/.env.muclone \
+                --env-file /home/rifandye/projects/.env.muclone \
                 rifandye/muclone-image-hub:development
             EOF
 
