@@ -57,6 +57,7 @@ jobs:
                 -e DB_HOST=$DB_HOST \
                 -e JWT_SECRET=$JWT_SECRET \
                 -e ALLOWED_ORIGINS=$ALLOWED_ORIGINS \
+                -e PORT=$PORT \
                 rifandye/muclone-image-hub:development
             EOF
 
@@ -79,6 +80,7 @@ jobs:
                 -e DB_HOST=$DB_HOST \
                 -e JWT_SECRET=$JWT_SECRET \
                 -e ALLOWED_ORIGINS=$ALLOWED_ORIGINS \
+                 -e PORT=$PORT \
                 rifandye/muclone-image-hub:production
             EOF
 
