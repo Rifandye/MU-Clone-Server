@@ -60,7 +60,7 @@ jobs:
                 -e PORT=3001 \
                 rifandye/muclone-image-hub:development
             EOF
-        context: MUClone-Dev-Context
+    context: MUClone-Dev-Context
 
   deploy-prod:
     docker:
