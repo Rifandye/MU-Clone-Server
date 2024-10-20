@@ -45,6 +45,12 @@ jobs:
           name: SSH to VPS and pull Docker image
           command: |
             ssh -o StrictHostKeyChecking=no -p $VPS_PORT $VPS_USER@$VPS_IP \<< 'EOF'
+              echo "DB_USERNAME=${DB_USERNAME}"
+              echo "DB_PASSWORD=${DB_PASSWORD}"
+              echo "DB_NAME=${DB_NAME}"
+              echo "DB_HOST=${DB_HOST}"
+              echo "JWT_SECRET=${JWT_SECRET}"
+              echo "ALLOWED_ORIGINS=${ALLOWED_ORIGINS}"
               docker pull rifandye/muclone-image-hub:development
               docker ps -a --filter "name=mu-clone-development" -q | grep -q . && \
               docker stop mu-clone-development && docker rm mu-clone-development || true
