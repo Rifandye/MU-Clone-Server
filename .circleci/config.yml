@@ -45,27 +45,18 @@ jobs:
           name: SSH to VPS and pull Docker image
           command: |
             ssh -o StrictHostKeyChecking=no -p $VPS_PORT $VPS_USER@$VPS_IP \<< 'EOF'
-
-              export DB_USERNAME="$DB_USERNAME"
-              export DB_PASSWORD="$DB_PASSWORD"
-              export DB_NAME="$DB_NAME"
-              export DB_HOST="$DB_HOST"
-              export JWT_SECRET="$JWT_SECRET"
-              export ALLOWED_ORIGINS="$ALLOWED_ORIGINS"
-              export PORT=3001
-
               docker pull rifandye/muclone-image-hub:development
               docker ps -a --filter "name=mu-clone-development" -q | grep -q . && \
               docker stop mu-clone-development && docker rm mu-clone-development || true
               docker run -d --name mu-clone-development \
                 --network Runestone-Network \
                 -p 8001:3001 \
-                -e DB_USERNAME=$DB_USERNAME \
-                -e DB_PASSWORD=$DB_PASSWORD \
-                -e DB_NAME=$DB_NAME \
-                -e DB_HOST=$DB_HOST \
-                -e JWT_SECRET=$JWT_SECRET \
-                -e ALLOWED_ORIGINS=$ALLOWED_ORIGINS \
+                -e DB_USERNAME="${DB_USERNAME}" \
+                -e DB_PASSWORD="${DB_PASSWORD}" \
+                -e DB_NAME="${DB_NAME}" \
+                -e DB_HOST="${DB_HOST}" \
+                -e JWT_SECRET="${JWT_SECRET}" \
+                -e ALLOWED_ORIGINS="${ALLOWED_ORIGINS}" \
                 -e PORT=3001 \
                 rifandye/muclone-image-hub:development
             EOF
