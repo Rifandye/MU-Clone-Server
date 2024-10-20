@@ -48,6 +48,10 @@ app.use(
   }),
 );
 
+console.log(process.env.PORT, '<<<< port');
+console.log(process.env.JWT_SECRET, '<<<<< jwt secret');
+console.log(process.env.DB_NAME, '<<<<<< db name');
+
 app.use(router);
 app.use(errorHandler);
 
