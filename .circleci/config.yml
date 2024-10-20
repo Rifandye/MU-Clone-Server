@@ -54,7 +54,6 @@ jobs:
                 --env-file /projects/.env.muclone \
                 rifandye/muclone-image-hub:development
             EOF
-    context: MUClone-Dev-Context
 
   deploy-prod:
     docker:
