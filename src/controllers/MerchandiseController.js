@@ -8,6 +8,14 @@ const {
 } = require('../models');
 const Response = require('../utils/response');
 
+const cloudinary = require('cloudinary').v2;
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
 module.exports = class MerchandiseController {
   static async getAllMerchandise(req, res, next) {
     const response = new Response(res);
@@ -65,6 +73,7 @@ module.exports = class MerchandiseController {
     const t = await sequelize.transaction();
     try {
       const { name, description, slug, price, stock, categories } = req.body;
+      const files = req.files;
 
       const createdMerch = await Merchandise.create(
         {
@@ -108,6 +117,36 @@ module.exports = class MerchandiseController {
           ),
         ),
       );
+
+      let imageUrls = [];
+      if (files && files.length > 0) {
+        for (let file of files) {
+          const base64Image = file.buffer.toString('base64');
+          const base64URL = `data:${file.mimetype};base64,${base64Image}`;
+
+          const result = await cloudinary.uploader
+            .upload_stream(base64URL, {
+              public_id: file.originalname,
+            })
+            .catch((error) => {
+              console.log('Cloudinary upload error:', error);
+              throw new Error('Image upload failed');
+            });
+
+          if (result) {
+            imageUrls.push(result.secure_url);
+          }
+        }
+      }
+
+      if (imageUrls.length > 0) {
+        for (let url of imageUrls) {
+          await Image.create(
+            { url, merchandiseId: createdMerch.id },
+            { transaction: t },
+          );
+        }
+      }
 
       const data = await Merchandise.findOne({
         where: { id: createdMerch.id },
