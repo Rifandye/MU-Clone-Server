@@ -10,7 +10,7 @@ const upload = multer({ storage: storage });
 
 router.post(
   '/',
-  upload.array('images', 5),
+  upload.single('thumbnail'),
   createMerchandiseSchema,
   validator,
   MerchandiseController.createMerchandise,

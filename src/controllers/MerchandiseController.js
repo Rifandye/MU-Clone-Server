@@ -73,7 +73,7 @@ module.exports = class MerchandiseController {
     const t = await sequelize.transaction();
     try {
       const { name, description, slug, price, stock, categories } = req.body;
-      const files = req.files;
+      const file = req.files;
 
       const createdMerch = await Merchandise.create(
         {
@@ -118,35 +118,27 @@ module.exports = class MerchandiseController {
         ),
       );
 
-      let imageUrls = [];
-      if (files && files.length > 0) {
-        for (let file of files) {
-          const base64Image = file.buffer.toString('base64');
-          const base64URL = `data:${file.mimetype};base64,${base64Image}`;
+      const base64Image = file.buffer.toString('base64');
+      const base64URL = `data:${file.mimetype};base64,${base64Image}`;
 
-          const result = await cloudinary.uploader
-            .upload_stream(base64URL, {
-              public_id: file.originalname,
-            })
-            .catch((error) => {
-              console.log('Cloudinary upload error:', error);
-              throw new Error('Image upload failed');
-            });
+      const result = await cloudinary.uploader
+        .upload_stream(base64URL, {
+          public_id: file.originalname,
+        })
+        .catch((error) => {
+          console.log('Cloudinary upload error:', error);
+          throw new Error('Image upload failed');
+        });
 
-          if (result) {
-            imageUrls.push(result.secure_url);
-          }
-        }
-      }
+      const createdThumbnail = await Image.create(
+        { url: result.secure_url, merchandiseId: createdMerch.id },
+        { transaction: t },
+      );
 
-      if (imageUrls.length > 0) {
-        for (let url of imageUrls) {
-          await Image.create(
-            { url, merchandiseId: createdMerch.id },
-            { transaction: t },
-          );
-        }
-      }
+      await Merchandise.update(
+        { thumbnail: createdThumbnail.id },
+        { where: { id: createdMerch.id }, transaction: t },
+      );
 
       const data = await Merchandise.findOne({
         where: { id: createdMerch.id },
