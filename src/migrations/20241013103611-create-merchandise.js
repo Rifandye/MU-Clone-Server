@@ -22,7 +22,7 @@ module.exports = {
         type: Sequelize.STRING,
       },
       thumbnail: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.STRING,
       },
       price: {

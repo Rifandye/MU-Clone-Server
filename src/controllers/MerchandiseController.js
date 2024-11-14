@@ -73,7 +73,7 @@ module.exports = class MerchandiseController {
     const t = await sequelize.transaction();
     try {
       const { name, description, slug, price, stock, categories } = req.body;
-      const file = req.files;
+      const file = req.file;
 
       const createdMerch = await Merchandise.create(
         {
@@ -118,25 +118,20 @@ module.exports = class MerchandiseController {
         ),
       );
 
-      const base64Image = file.buffer.toString('base64');
+      const base64Image = req.file.buffer.toString('base64');
       const base64URL = `data:${file.mimetype};base64,${base64Image}`;
 
-      const result = await cloudinary.uploader
-        .upload_stream(base64URL, {
-          public_id: file.originalname,
-        })
-        .catch((error) => {
-          console.log('Cloudinary upload error:', error);
-          throw new Error('Image upload failed');
-        });
+      const result = await cloudinary.uploader.upload(base64URL, {
+        public_id: file.originalname,
+      });
 
       const createdThumbnail = await Image.create(
-        { url: result.secure_url, merchandiseId: createdMerch.id },
+        { url: result.secure_url, MerchandiseId: createdMerch.id },
         { transaction: t },
       );
 
       await Merchandise.update(
-        { thumbnail: createdThumbnail.id },
+        { thumbnail: createdThumbnail.url },
         { where: { id: createdMerch.id }, transaction: t },
       );
 

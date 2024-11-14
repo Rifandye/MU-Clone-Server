@@ -13,7 +13,7 @@ module.exports = {
         type: Sequelize.TEXT,
         allowNull: false,
       },
-      merchandiseId: {
+      MerchandiseId: {
         type: Sequelize.UUID,
         references: {
           model: 'Merchandises',
