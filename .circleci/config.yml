@@ -37,40 +37,6 @@ jobs:
               fi
             echo "Pushing Docker image with tag: rifandye/muclone-image-hub:$IMAGE_TAG"
             docker push rifandye/muclone-image-hub:$IMAGE_TAG
-  deploy-dev:
-    docker:
-      - image: cimg/base:stable
-    steps:
-      - run:
-          name: SSH to VPS and pull Docker image
-          command: |
-            ssh -o StrictHostKeyChecking=no -p $VPS_PORT $VPS_USER@$VPS_IP \<< 'EOF'
-              docker pull rifandye/muclone-image-hub:development
-              docker ps -a --filter "name=mu-clone-development" -q | grep -q . && \
-              docker stop mu-clone-development && docker rm mu-clone-development || true
-              docker run -d --name mu-clone-development \
-                --network Runestone-Network \
-                -p 8001:3001 \
-                --env-file /home/rifandye/projects/secrets/.env.muclone.dev \
-                rifandye/muclone-image-hub:development
-            EOF
-
-  deploy-prod:
-    docker:
-      - image: cimg/base:stable
-    steps:
-      - run:
-          name: SSH to VPS and pull Docker image
-          command: |
-            ssh -o StrictHostKeyChecking=no $VPS_USER@$VPS_IP \<< 'EOF'
-              docker pull rifandye/muclone-image-hub:production
-              docker stop mu-clone-production || true
-              docker rm mu-clone-production || true
-              docker run -d --name mu-clone-production \
-                -p 8002:3002 \
-                --env-file /home/rifandye/projects/secrets/.env.muclone.prod \
-                rifandye/muclone-image-hub:production
-            EOF
 workflows:
   version: 2
   build-and-deploy:
@@ -81,17 +47,3 @@ workflows:
               only:
                 - development
                 - main
-      - deploy-dev:
-          requires:
-            - build
-          filters:
-            branches:
-              only: development
-          context: MUClone-Dev-Context 
-      - deploy-prod:
-          requires:
-            - build
-          filters:
-            branches:
-              only: main
-          context: MUClone-Prod-Context 
