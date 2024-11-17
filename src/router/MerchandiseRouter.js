@@ -6,11 +6,11 @@ const { createMerchandiseSchema } = require('../schemas/merchandiseSchema');
 const multer = require('multer');
 
 const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
+// const upload = multer({ storage: storage });
 
 router.post(
   '/',
-  upload.single('thumbnail'),
+  // upload.single('thumbnail'),
   createMerchandiseSchema,
   validator,
   MerchandiseController.createMerchandise,

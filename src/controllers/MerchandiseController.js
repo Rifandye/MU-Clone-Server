@@ -73,7 +73,7 @@ module.exports = class MerchandiseController {
     const t = await sequelize.transaction();
     try {
       const { name, description, slug, price, stock, categories } = req.body;
-      const file = req.file;
+      // const file = req.file;
 
       const createdMerch = await Merchandise.create(
         {
@@ -118,22 +118,22 @@ module.exports = class MerchandiseController {
         ),
       );
 
-      const base64Image = req.file.buffer.toString('base64');
-      const base64URL = `data:${file.mimetype};base64,${base64Image}`;
+      // const base64Image = req.file.buffer.toString('base64');
+      // const base64URL = `data:${file.mimetype};base64,${base64Image}`;
 
-      const result = await cloudinary.uploader.upload(base64URL, {
-        public_id: file.originalname,
-      });
+      // const result = await cloudinary.uploader.upload(base64URL, {
+      //   public_id: file.originalname,
+      // });
 
-      const createdThumbnail = await Image.create(
-        { url: result.secure_url, MerchandiseId: createdMerch.id },
-        { transaction: t },
-      );
+      // const createdThumbnail = await Image.create(
+      //   { url: result.secure_url, MerchandiseId: createdMerch.id },
+      //   { transaction: t },
+      // );
 
-      await Merchandise.update(
-        { thumbnail: createdThumbnail.url },
-        { where: { id: createdMerch.id }, transaction: t },
-      );
+      // await Merchandise.update(
+      //   { thumbnail: createdThumbnail.url },
+      //   { where: { id: createdMerch.id }, transaction: t },
+      // );
 
       const data = await Merchandise.findOne({
         where: { id: createdMerch.id },
