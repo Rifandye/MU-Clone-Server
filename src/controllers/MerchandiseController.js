@@ -19,8 +19,20 @@ cloudinary.config({
 module.exports = class MerchandiseController {
   static async getAllMerchandise(req, res, next) {
     const response = new Response(res);
+
+    const { page = 1, size = 10 } = req.query;
+
+    const pageNumber = parseInt(page, 10);
+    const pageSize = parseInt(size, 10);
+
+    const offset = (pageNumber - 1) * pageSize;
+    const limit = pageSize;
+
     try {
-      const data = await Merchandise.findAll({
+      const { count, rows: data } = await Merchandise.findAndCountAll({
+        offset,
+        limit,
+        distinct: true,
         include: [
           {
             model: Category,
@@ -34,7 +46,19 @@ module.exports = class MerchandiseController {
         ],
       });
 
-      response.success('Fetched successfully', data, 200);
+      const totalPages = Math.ceil(count / pageSize);
+
+      const result = {
+        data,
+        pagination: {
+          totalItems: count,
+          totalPages,
+          currentPage: pageNumber,
+          pageSize,
+        },
+      };
+
+      response.success('Fetched successfully', result, 200);
     } catch (error) {
       next(error);
     }
