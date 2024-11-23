@@ -1,15 +1,10 @@
-require('dotenv').config({
-  path:
-    process.env.NODE_ENV === 'production'
-      ? '.env.production'
-      : '.env.development',
-});
+require('dotenv').config();
 
 const jwt = require('jsonwebtoken');
 const secret = process.env.JWT_SECRET;
 
 const signToken = (payload) => {
-  return jwt.sign(payload, secret, { expiresIn: '1h' });
+  return jwt.sign(payload, secret, { expiresIn: '1d' });
 };
 
 const verifyToken = (token) => {
