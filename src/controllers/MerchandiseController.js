@@ -49,12 +49,12 @@ module.exports = class MerchandiseController {
       const totalPages = Math.ceil(count / pageSize);
 
       const result = {
-        data,
-        pagination: {
+        data: {
           totalItems: count,
           totalPages,
           currentPage: pageNumber,
           pageSize,
+          data: data,
         },
       };
 
