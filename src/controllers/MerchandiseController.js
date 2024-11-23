@@ -44,6 +44,7 @@ module.exports = class MerchandiseController {
             attributes: ['id', 'url'],
           },
         ],
+        order: [['createdAt', 'DESC']],
       });
 
       const totalPages = Math.ceil(count / pageSize);
