@@ -21,13 +21,11 @@ module.exports = class CategoryController {
       const totalPages = Math.ceil(count / pageSize);
 
       const result = {
-        data: {
-          totalItems: count,
-          totalPages,
-          currentPage: pageNumber,
-          pageSize,
-          data: data,
-        },
+        totalItems: count,
+        totalPages,
+        currentPage: pageNumber,
+        pageSize,
+        data: data,
       };
 
       response.success('Fetch Category Successfull', result, 200);
