@@ -164,4 +164,52 @@ module.exports = class MerchandiseController {
       next(error);
     }
   }
+
+  static async updateThumbnail(req, res, next) {
+    const response = new Response(res);
+    const t = await sequelize.transaction();
+    try {
+      const { id } = req.params;
+
+      const merchandise = await Merchandise.findByPk(id);
+
+      if (!merchandise)
+        throw { name: 'NotFound', message: 'Merchandise not found' };
+
+      if (!req.file)
+        throw { name: 'FileIsRequired', message: 'File is required' };
+
+      const base64Image = req.file.buffer.toString('base64');
+      const base64URL = `data:${req.file.mimetype};base64,${base64Image}`;
+
+      const result = await cloudinary.uploader.upload(base64URL, {
+        public_id: req.file.originalname,
+      });
+
+      if (!result || !result.secure_url) {
+        throw { name: 'UploadError', message: 'Failed to upload thumbnail' };
+      }
+
+      await merchandise.update(
+        { thumbnail: result.secure_url },
+        { transaction: t },
+      );
+
+      const updatedMerchandise = await Merchandise.findByPk(id, {
+        transaction: t,
+      });
+
+      await t.commit();
+
+      response.success(
+        'Upload thumbnail successfully',
+        updatedMerchandise,
+        200,
+      );
+    } catch (error) {
+      console.log(error, 'error uploading thumbnail');
+      await t.rollback();
+      next(error);
+    }
+  }
 };

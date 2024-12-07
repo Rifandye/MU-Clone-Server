@@ -4,10 +4,9 @@ const MerchandiseController = require('../controllers/MerchandiseController');
 const validator = require('../middlewares/Validator');
 const { createMerchandiseSchema } = require('../schemas/merchandiseSchema');
 
-//! Uploading Image Feature Will Be Integrated In The Future
-// const multer = require('multer');
-// const storage = multer.memoryStorage();
-// const upload = multer({ storage: storage });
+const multer = require('multer');
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
 router.post(
   '/',
@@ -17,5 +16,10 @@ router.post(
 );
 router.get('/', MerchandiseController.getAllMerchandise);
 router.get('/:slug', MerchandiseController.getMerchandiseBySlug);
+router.patch(
+  '/:id/upload-thumbnail',
+  upload.single('thumbnail'),
+  MerchandiseController.updateThumbnail,
+);
 
 module.exports = router;
