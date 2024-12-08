@@ -21,5 +21,10 @@ router.patch(
   upload.single('thumbnail'),
   MerchandiseController.updateThumbnail,
 );
+router.post(
+  '/:id/upload-image',
+  upload.array('images'),
+  MerchandiseController.uploadImages,
+);
 
 module.exports = router;

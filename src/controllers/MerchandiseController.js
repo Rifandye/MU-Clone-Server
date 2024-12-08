@@ -212,4 +212,60 @@ module.exports = class MerchandiseController {
       next(error);
     }
   }
+
+  static async uploadImages(req, res, next) {
+    const response = new Response(res);
+    const t = await sequelize.transaction();
+    try {
+      const { id } = req.params;
+
+      const merchandise = await Merchandise.findByPk(id, { transaction: t });
+
+      if (!merchandise)
+        throw { name: 'NotFound', message: 'Merchandise not found' };
+
+      if (!req.files || req.files.length === 0) {
+        throw {
+          name: 'FileIsRequired',
+          message: 'At least one file is required',
+        };
+      }
+
+      for (const file of req.files) {
+        const base64Image = file.buffer.toString('base64');
+        const base64URL = `data:${file.mimetype};base64,${base64Image}`;
+
+        const result = await cloudinary.uploader.upload(base64URL, {
+          public_id: file.originalname,
+        });
+
+        if (!result || !result.secure_url) {
+          throw {
+            name: 'UploadError',
+            message: `Failed to upload image: ${file.originalname}`,
+          };
+        }
+
+        await Image.create(
+          {
+            MerchandiseId: id,
+            url: result.secure_url,
+          },
+          { transaction: t },
+        );
+      }
+
+      const updatedMerchandise = await Merchandise.findByPk(id, {
+        transaction: t,
+      });
+
+      await t.commit();
+
+      response.success('Uploaded Images Successfully', updatedMerchandise, 200);
+    } catch (error) {
+      console.log(error, 'error upload images');
+      await t.rollback();
+      next(error);
+    }
+  }
 };
