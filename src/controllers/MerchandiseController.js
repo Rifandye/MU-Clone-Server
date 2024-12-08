@@ -171,7 +171,7 @@ module.exports = class MerchandiseController {
     try {
       const { id } = req.params;
 
-      const merchandise = await Merchandise.findByPk(id);
+      const merchandise = await Merchandise.findByPk(id, { transaction: t });
 
       if (!merchandise)
         throw { name: 'NotFound', message: 'Merchandise not found' };
