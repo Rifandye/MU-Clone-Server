@@ -14,6 +14,8 @@ const authentication = async (req, res, next) => {
     const user = await User.findByPk(decodedToken.id);
     if (!user) throw { name: 'InvalidToken' };
 
+    if (user.role !== 'FANS') throw { name: 'InvalidToken' };
+
     req.user = user;
 
     next();
