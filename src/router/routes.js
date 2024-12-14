@@ -3,10 +3,15 @@ const router = express.Router();
 const AuthRouter = require('./AuthRouter');
 const MerchandiseRouter = require('./MerchandiseRouter');
 const CategoryRouter = require('./CategoryRouter');
-const { authentication } = require('../middlewares/Authentication');
+const PublicRouter = require('./PublicRouter');
+const {
+  authentication,
+  authenticationForAdmin,
+} = require('../middlewares/Authentication');
 
 router.use('/auth', AuthRouter);
-router.use(authentication);
+router.use('/public', PublicRouter);
+router.use(authenticationForAdmin);
 router.use('/merchandise', MerchandiseRouter);
 router.use('/category', CategoryRouter);
 

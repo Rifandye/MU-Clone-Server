@@ -1,9 +1,4 @@
-require('dotenv').config({
-  path:
-    process.env.NODE_ENV === 'production'
-      ? '.env.production'
-      : '.env.development',
-});
+require('dotenv').config();
 
 module.exports = {
   development: {
@@ -11,6 +6,7 @@ module.exports = {
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
     host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
     dialect: 'postgres',
     pool: {
       max: 10,

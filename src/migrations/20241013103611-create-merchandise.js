@@ -21,6 +21,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
       },
+      thumbnail: {
+        allowNull: true,
+        type: Sequelize.STRING,
+      },
       price: {
         allowNull: false,
         type: Sequelize.DECIMAL,

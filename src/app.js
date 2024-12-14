@@ -7,15 +7,10 @@ const expressWinston = require('express-winston');
 const router = require('./router/routes');
 const errorHandler = require('./middlewares/ErrorHandler');
 
-dotenv.config({
-  path:
-    process.env.NODE_ENV === 'production'
-      ? '.env.production'
-      : '.env.development',
-});
+dotenv.config();
 
 const app = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 3000;
 
 const allowedOrigins = process.env.ALLOWED_ORIGINS.split(',');
 
@@ -41,14 +36,15 @@ app.use(
     transports: [new winston.transports.Console()],
     format: winston.format.combine(
       winston.format.colorize(),
-      winston.format.printf(({ level, message }) => {
-        return `[${level}] ${message} `;
-      }),
+      winston.format.json(),
     ),
     meta: true,
     msg: 'HTTP {{req.method}} {{req.url}}',
     expressFormat: true,
-    colorize: false,
+    colorize: true,
+    ignoreRoute: function (req, res) {
+      return false;
+    },
   }),
 );
 
@@ -60,17 +56,13 @@ app.use(
     transports: [new winston.transports.Console()],
     format: winston.format.combine(
       winston.format.colorize(),
-      winston.format.printf(({ level, message }) => {
-        return `[${level}] ${message}`;
-      }),
+      winston.format.json(),
     ),
   }),
 );
 
 app.listen(port, () => {
-  console.log(
-    `Server running with ${process.env.NODE_ENV} mode on port ${port}`,
-  );
+  console.log(`Server running on port ${port}`);
 });
 
 module.exports = app;

@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: DataTypes.UUIDV4,
       },
       url: DataTypes.TEXT,
-      merchandiseId: DataTypes.UUID,
+      MerchandiseId: DataTypes.UUID,
     },
     {
       sequelize,
