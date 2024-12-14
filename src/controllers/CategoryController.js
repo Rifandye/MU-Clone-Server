@@ -33,4 +33,19 @@ module.exports = class CategoryController {
       next(error);
     }
   }
+
+  static async createCategory(req, res, next) {
+    const response = new Response(res);
+    try {
+      const createdCategory = await Category.create(req.body);
+
+      const data = await Category.findOne({
+        where: { id: createdCategory.id },
+      });
+
+      response.success('Category created successfully', data, 201);
+    } catch (error) {
+      next(error);
+    }
+  }
 };
