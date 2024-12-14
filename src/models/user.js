@@ -10,7 +10,29 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      User.hasMany(models.Merchandise, {
+        foreignKey: 'createdBy',
+      });
+
+      User.hasMany(models.Merchandise, {
+        foreignKey: 'updatedBy',
+      });
+
+      User.hasMany(models.Category, {
+        foreignKey: 'createdBy',
+      });
+
+      User.hasMany(models.Category, {
+        foreignKey: 'updatedBy',
+      });
+
+      User.hasMany(models.Image, {
+        foreignKey: 'createdBy',
+      });
+
+      User.hasMany(models.Image, {
+        foreignKey: 'updatedBy',
+      });
     }
   }
   User.init(
@@ -33,6 +55,7 @@ module.exports = (sequelize, DataTypes) => {
       sequelize,
       modelName: 'User',
       timestamps: true,
+      paranoid: true,
     },
   );
 

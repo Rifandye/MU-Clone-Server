@@ -1,4 +1,4 @@
-const { Category } = require('../models');
+const { Category, User } = require('../models');
 const Response = require('../utils/response');
 
 module.exports = class CategoryController {
@@ -14,8 +14,17 @@ module.exports = class CategoryController {
       const limit = pageSize;
 
       const { count, rows: data } = await Category.findAndCountAll({
+        attributes: ['id', 'name', 'createdAt'],
         offset,
         limit,
+        include: [
+          {
+            model: User,
+            as: 'createdByUser',
+            attributes: ['id', 'firstName', 'lastName', 'role'],
+            required: false,
+          },
+        ],
       });
 
       const totalPages = Math.ceil(count / pageSize);
@@ -37,7 +46,13 @@ module.exports = class CategoryController {
   static async createCategory(req, res, next) {
     const response = new Response(res);
     try {
-      const createdCategory = await Category.create(req.body);
+      const { name } = req.body;
+      const { id } = req.user;
+
+      const createdCategory = await Category.create({
+        name,
+        createdBy: id,
+      });
 
       const data = await Category.findOne({
         where: { id: createdCategory.id },

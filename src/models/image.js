@@ -9,6 +9,14 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Image.belongsTo(models.Merchandise);
+
+      Image.belongsTo(models.User, {
+        foreignKey: 'createdBy',
+      });
+
+      Image.belongsTo(models.User, {
+        foreignKey: 'updatedBy',
+      });
     }
   }
   Image.init(
@@ -20,11 +28,14 @@ module.exports = (sequelize, DataTypes) => {
       },
       url: DataTypes.TEXT,
       MerchandiseId: DataTypes.UUID,
+      createdBy: DataTypes.UUID,
+      updatedBy: DataTypes.UUID,
     },
     {
       sequelize,
       modelName: 'Image',
       timestamps: true,
+      paranoid: true,
     },
   );
   return Image;

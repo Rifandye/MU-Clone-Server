@@ -13,6 +13,16 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'categoryId',
         otherKey: 'merchandiseId',
       });
+
+      Category.belongsTo(models.User, {
+        foreignKey: 'createdBy',
+        as: 'createdByUser',
+      });
+
+      Category.belongsTo(models.User, {
+        foreignKey: 'updatedBy',
+        as: 'updatedByUser',
+      });
     }
   }
   Category.init(
@@ -23,11 +33,14 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: DataTypes.UUIDV4,
       },
       name: DataTypes.STRING,
+      createdBy: DataTypes.UUID,
+      updatedBy: DataTypes.UUID,
     },
     {
       sequelize,
       modelName: 'Category',
       timestamps: true,
+      paranoid: true,
     },
   );
   return Category;
