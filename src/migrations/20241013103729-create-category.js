@@ -21,6 +21,26 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
       },
+      createdBy: {
+        allowNull: false,
+        type: Sequelize.UUID,
+        references: {
+          model: 'Users',
+          references: 'id',
+        },
+      },
+      updatedBy: {
+        allowNull: true,
+        type: Sequelize.UUID,
+        references: {
+          model: 'Users',
+          references: 'id',
+        },
+      },
+      deletedAt: {
+        allowNull: true,
+        type: Sequelize.DATE,
+      },
     });
   },
   async down(queryInterface, Sequelize) {
