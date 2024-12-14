@@ -17,6 +17,16 @@ module.exports = (sequelize, DataTypes) => {
       Merchandise.hasMany(models.Image, {
         foreignKey: 'MerchandiseId',
       });
+
+      Merchandise.belongsTo(models.User, {
+        foreignKey: 'createdBy',
+        as: 'createdByUser',
+      });
+
+      Merchandise.belongsTo(models.User, {
+        foreignKey: 'updatedBy',
+        as: 'updatedByUser',
+      });
     }
   }
   Merchandise.init(
@@ -32,11 +42,14 @@ module.exports = (sequelize, DataTypes) => {
       thumbnail: DataTypes.STRING,
       price: DataTypes.DECIMAL,
       stock: DataTypes.INTEGER,
+      createdBy: DataTypes.UUID,
+      updatedBy: DataTypes.UUID,
     },
     {
       sequelize,
       modelName: 'Merchandise',
       timestamps: true,
+      paranoid: true,
     },
   );
   return Merchandise;

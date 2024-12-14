@@ -4,6 +4,7 @@ const {
   Category,
   Merchandise_Categories,
   Image,
+  User,
   sequelize,
 } = require('../models');
 const Response = require('../utils/response');
@@ -33,7 +34,23 @@ module.exports = class MerchandiseController {
         offset,
         limit,
         distinct: true,
+        attributes: [
+          'id',
+          'name',
+          'description',
+          'slug',
+          'thumbnail',
+          'price',
+          'stock',
+          'createdAt',
+        ],
         include: [
+          {
+            model: User,
+            as: 'createdByUser',
+            attributes: ['id', 'firstName', 'lastName', 'role'],
+            required: false,
+          },
           {
             model: Category,
             through: { attributes: [] },
@@ -70,7 +87,30 @@ module.exports = class MerchandiseController {
 
       const data = await Merchandise.findOne({
         where: { slug },
+        attributes: [
+          'id',
+          'name',
+          'description',
+          'slug',
+          'thumbnail',
+          'price',
+          'stock',
+          'createdAt',
+          'updatedAt',
+        ],
         include: [
+          {
+            model: User,
+            as: 'createdByUser',
+            attributes: ['id', 'firstName', 'lastName', 'role'],
+            required: false,
+          },
+          {
+            model: User,
+            as: 'updatedByUser',
+            attributes: ['id', 'firstName', 'lastName', 'role'],
+            required: false,
+          },
           {
             model: Category,
             through: { attributes: [] },
@@ -96,6 +136,7 @@ module.exports = class MerchandiseController {
     const t = await sequelize.transaction();
     try {
       const { name, description, slug, price, stock, categories } = req.body;
+      const { id } = req.user;
 
       const createdMerch = await Merchandise.create(
         {
@@ -104,6 +145,7 @@ module.exports = class MerchandiseController {
           slug,
           price,
           stock,
+          createdBy: id,
         },
         {
           transaction: t,
@@ -170,6 +212,7 @@ module.exports = class MerchandiseController {
     const t = await sequelize.transaction();
     try {
       const { id } = req.params;
+      const user = req.user;
 
       const merchandise = await Merchandise.findByPk(id, { transaction: t });
 
@@ -191,7 +234,7 @@ module.exports = class MerchandiseController {
       }
 
       await merchandise.update(
-        { thumbnail: result.secure_url },
+        { thumbnail: result.secure_url, updatedBy: user.id },
         { transaction: t },
       );
 
@@ -218,6 +261,7 @@ module.exports = class MerchandiseController {
     const t = await sequelize.transaction();
     try {
       const { id } = req.params;
+      const user = req.user;
 
       const merchandise = await Merchandise.findByPk(id, { transaction: t });
 
@@ -250,6 +294,7 @@ module.exports = class MerchandiseController {
           {
             MerchandiseId: id,
             url: result.secure_url,
+            createdBy: user.id,
           },
           { transaction: t },
         );
