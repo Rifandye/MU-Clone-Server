@@ -21,9 +21,18 @@ const corsOptions = {
     }
     return callback(new Error('Not allowed by CORS'), false);
   },
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: [
+    'Content-Type',
+    'Authorization',
+    'Accept',
+    'X-Requested-With',
+  ],
+  credentials: true,
+  optionsSuccessStatus: 200,
 };
+
+app.options('*', cors(corsOptions));
 
 app.use(cors(corsOptions));
 app.use(helmet());
